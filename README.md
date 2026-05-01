@@ -18,4 +18,10 @@ A machine learning-based movie recommendation system that suggests similar movie
 - Streamlit
 
 ## 📂 Project Structure
-
+movie-recommender-app/
+│── data/
+│── model/
+│── app.py
+│── main.py
+│── requirements.txt
+│── README.md
