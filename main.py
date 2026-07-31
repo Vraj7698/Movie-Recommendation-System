@@ -1,6 +1,7 @@
 import os      # file paths & environment variables
 import pickle  #load saved ML data (df, tfidf, etc.)
-from typing import Optional, List, Dict, Any, Tuple
+import requests
+from typing import Optional, List, Dict, Any, Tuple 
 
 import numpy as np  # data handling
 import pandas as pd # data handling
@@ -83,6 +84,66 @@ class TMDBMovieDetails(BaseModel):
     poster_url: Optional[str] = None
     backdrop_url: Optional[str] = None
     genres: List[dict] = []
+#----------------------------------------------------------
+    vote_average: Optional[float] = None
+    runtime: Optional[int] = None
+#----------------------------------------------------------
+class CastMember(BaseModel):
+    id: int
+    name: str
+    character: str | None = None
+    profile_url: str | None = None
+
+#----------------------------------------------------------
+
+
+class TMDBPersonDetails(BaseModel):
+    id: int
+    name: str
+    biography: Optional[str] = None
+    birthday: Optional[str] = None
+    place_of_birth: Optional[str] = None
+    profile_url: Optional[str] = None
+    known_for_department: Optional[str] = None
+
+class MovieImage(BaseModel):
+    file_url: str
+
+def tmdb_person_details(person_id: int) -> TMDBPersonDetails:
+    url = f"https://api.themoviedb.org/3/person/{person_id}?api_key={TMDB_API_KEY}"
+
+    response = requests.get(url, timeout=10)
+
+    if response.status_code != 200:
+        raise HTTPException(
+            status_code=404,
+            detail="Person details not found"
+        )
+
+    data = response.json()
+
+    return TMDBPersonDetails(
+        id=data.get("id"),
+        name=data.get("name", "Unknown"),
+        biography=data.get("biography"),
+        birthday=data.get("birthday"),
+        place_of_birth=data.get("place_of_birth"),
+        profile_url=make_img_url(data.get("profile_path")),
+        known_for_department=data.get("known_for_department")
+    )
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+class PersonMovie(BaseModel):
+    tmdb_id: int
+    title: str
+    poster_url: Optional[str] = None
+    release_date: Optional[str] = None
+#----------------------------------------------------------
+
 
 # ML recommendation
 
@@ -187,8 +248,85 @@ async def tmdb_movie_details(movie_id: int) -> TMDBMovieDetails:
         poster_url=make_img_url(data.get("poster_path")),
         backdrop_url=make_img_url(data.get("backdrop_path")),
         genres=data.get("genres", []) or [],
+#-------------------------------------------------------
+        vote_average=data.get("vote_average"),
+        runtime=data.get("runtime"),
+    )
+#-------------------------------------------------------
+
+def tmdb_movie_images(tmdb_id: int) -> list[MovieImage]:
+    url = (
+        f"https://api.themoviedb.org/3/movie/{tmdb_id}/images"
+        f"?api_key={TMDB_API_KEY}"
     )
 
+    response = requests.get(url, timeout=10)
+
+    if response.status_code != 200:
+        raise HTTPException(
+            status_code=404,
+            detail="Movie images not found"
+        )
+
+    data = response.json()
+    backdrops = data.get("backdrops", [])
+
+    images = []
+
+    for backdrop in backdrops[:5]:
+        file_path = backdrop.get("file_path")
+
+        if file_path:
+            images.append(
+                MovieImage(
+                    file_url=make_img_url(file_path)
+                )
+            )
+
+    return images
+#-------------------------------------------------------
+
+def tmdb_movie_cast(tmdb_id: int):
+    url = f"https://api.themoviedb.org/3/movie/{tmdb_id}/credits"
+
+    params = {
+        "api_key": TMDB_API_KEY,
+        "language": "en-US"
+    }
+
+    response = requests.get(url, params=params, timeout=10)
+
+    if response.status_code != 200:
+        raise HTTPException(
+            status_code=response.status_code,
+            detail="Unable to fetch movie cast"
+        )
+
+    data = response.json()
+    cast_list = []
+
+    for actor in data.get("cast", [])[:12]:
+        profile_path = actor.get("profile_path")
+
+        profile_url = (
+            f"https://image.tmdb.org/t/p/w500{profile_path}"
+            if profile_path
+            else None
+        )
+
+        cast_list.append(
+            CastMember(
+                id=actor.get("id"),
+                name=actor.get("name", "Unknown"),
+                character=actor.get("character"),
+                profile_url=profile_url
+            )
+        )
+
+    return cast_list
+
+#-------------------------------------------------------
+# def tmdb_movie_images
 # (f) Search Movies
 # Returns list of movies from TMDB
 
@@ -214,6 +352,63 @@ async def tmdb_search_first(query: str) -> Optional[dict]:
     return results[0] if results else None
 
 # -----------------------------------------------------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------------------------------------------------
+
+def tmdb_person_movies(person_id: int) -> list[PersonMovie]:
+    url = (
+        f"https://api.themoviedb.org/3/person/{person_id}/movie_credits"
+        f"?api_key={TMDB_API_KEY}"
+    )
+
+    response = requests.get(url, timeout=10)
+
+    if response.status_code != 200:
+        raise HTTPException(
+            status_code=404,
+            detail="Person movies not found"
+        )
+
+    data = response.json()
+    cast_movies = data.get("cast", [])
+
+    # Popular movies पहले दिखेंगी
+    sorted_movies = sorted(
+        cast_movies,
+        key=lambda movie: movie.get("popularity", 0),
+        reverse=True
+    )
+
+    movies: list[PersonMovie] = []
+    seen_movie_ids = set()
+
+    for movie in sorted_movies:
+        movie_id = movie.get("id")
+
+        # Duplicate या invalid movie को skip करें
+        if not movie_id or movie_id in seen_movie_ids:
+            continue
+
+        seen_movie_ids.add(movie_id)
+
+        title = movie.get("title") or movie.get("original_title")
+
+        if not title:
+            continue
+
+        movies.append(
+            PersonMovie(
+                tmdb_id=movie_id,
+                title=title,
+                poster_url=make_img_url(movie.get("poster_path")),
+                release_date=movie.get("release_date")
+            )
+        )
+
+    return movies
+
+# -----------------------------------------------------------------------------------------------------------------------
+
 
 # TF-IDF Helpers
 
@@ -334,28 +529,30 @@ async def attach_tmdb_card_by_title(title: str) -> Optional[TMDBMovieCard]:
 def load_pickles():
     global df, indices_obj, tfidf_matrix, tfidf_obj, TITLE_TO_IDX
 
-    # Load df
-    with open(DF_PATH, "rb") as f:
+    # Load df.pkl
+    with open("models/df.pkl", "rb") as f:
         df = pickle.load(f)
 
-    # Load indices
-    with open(INDICES_PATH, "rb") as f:
+    # Load indices.pkl
+    with open("models/indices.pkl", "rb") as f:
         indices_obj = pickle.load(f)
 
-    # Load TF-IDF matrix (usually scipy sparse)
-    with open(TFIDF_MATRIX_PATH, "rb") as f:
+    # Load TF-IDF matrix
+    with open("models/tfidf_matrix.pkl", "rb") as f:
         tfidf_matrix = pickle.load(f)
 
-    # Load tfidf vectorizer (optional, not used directly here)
-    with open(TFIDF_PATH, "rb") as f:
+    # Load TF-IDF vectorizer
+    with open("models/tfidf.pkl", "rb") as f:
         tfidf_obj = pickle.load(f)
 
     # Build normalized map
     TITLE_TO_IDX = build_title_to_idx_map(indices_obj)
 
-    # sanity
+    # sanity check
     if df is None or "title" not in df.columns:
-        raise RuntimeError("df.pkl must contain a DataFrame with a 'title' column")
+        raise RuntimeError(
+            "df.pkl must contain a DataFrame with a 'title' column"
+        )
 
 
 # ------------------------------------------------------------------------------------------------------------------------------------
@@ -414,11 +611,249 @@ async def tmdb_search(
 
 
 # ---------- MOVIE DETAILS (SAFE ROUTE) ----------
-@app.get("/movie/id/{tmdb_id}", response_model=TMDBMovieDetails)
+@app.get(
+    "/movie/id/{tmdb_id}",
+    response_model=TMDBMovieDetails
+)
 async def movie_details_route(tmdb_id: int):
     return await tmdb_movie_details(tmdb_id)
 
 
+@app.get(
+    "/movie/id/{tmdb_id}/cast",
+    response_model=list[CastMember]
+)
+def movie_cast_route(tmdb_id: int):
+    return tmdb_movie_cast(tmdb_id)
+
+@app.get("/person/{person_id}", response_model=TMDBPersonDetails)
+def get_person_details(person_id: int):
+    return tmdb_person_details(person_id)
+
+
+@app.get("/person/{person_id}/movies", response_model=list[PersonMovie])
+def get_person_movies(person_id: int):
+    return tmdb_person_movies(person_id)
+
+@app.get(
+    "/movie/id/{tmdb_id}/images",
+    response_model=list[MovieImage]
+)
+ 
+def get_movie_images(tmdb_id: int):
+    return tmdb_movie_images(tmdb_id)
+
+@app.get("/movie/id/{tmdb_id}/watch-providers")
+def get_movie_watch_providers(tmdb_id: int):
+    return tmdb_movie_watch_providers(tmdb_id)
+
+def tmdb_movie_watch_providers(tmdb_id: int) -> list[dict]:
+    url = (
+        f"https://api.themoviedb.org/3/movie/{tmdb_id}/watch/providers"
+        f"?api_key={TMDB_API_KEY}"
+    )
+
+    response = requests.get(url, timeout=10)
+
+    if response.status_code != 200:
+        raise HTTPException(
+            status_code=response.status_code,
+            detail="TMDB watch providers API failed"
+        )
+
+    data = response.json()
+    results = data.get("results", {})
+
+    region_data = results.get("IN")
+
+    if not region_data:
+        region_data = results.get("US")
+
+    if not region_data and results:
+        region_data = next(iter(results.values()))
+
+    if not region_data:
+        return []
+
+    providers = []
+    seen_provider_ids = set()
+
+    for provider_type in ["flatrate", "rent", "buy"]:
+        provider_list = region_data.get(provider_type, [])
+
+        for provider in provider_list:
+            provider_id = provider.get("provider_id")
+
+            if not provider_id or provider_id in seen_provider_ids:
+                continue
+
+            seen_provider_ids.add(provider_id)
+
+            providers.append(
+                {
+                    "provider_id": provider_id,
+                    "provider_name": provider.get(
+                        "provider_name",
+                        "Unknown Provider"
+                    ),
+                    "logo_url": make_img_url(
+                        provider.get("logo_path")
+                    ),
+                    "provider_type": provider_type
+                }
+            )
+
+    return providers
+
+
+# नया function — बिल्कुल बाहर
+def tmdb_provider_movies(provider_id: int) -> list[dict]:
+    url = (
+        "https://api.themoviedb.org/3/discover/movie"
+        f"?api_key={TMDB_API_KEY}"
+        f"&with_watch_providers={provider_id}"
+        "&watch_region=IN"
+        "&sort_by=popularity.desc"
+    )
+
+    response = requests.get(url, timeout=10)
+
+    if response.status_code != 200:
+        return []
+
+    data = response.json()
+    movies = []
+
+    for movie in data.get("results", [])[:20]:
+        movies.append(
+            {
+                "tmdb_id": movie.get("id"),
+                "title": movie.get("title"),
+                "poster_url": make_img_url(
+                    movie.get("poster_path")
+                ),
+                "release_date": movie.get("release_date"),
+                "rating": movie.get("vote_average"),
+            }
+        )
+
+    return movies
+
+
+def tmdb_trending_people() -> list[dict]:
+    url = (
+        "https://api.themoviedb.org/3/trending/person/week"
+        f"?api_key={TMDB_API_KEY}"
+    )
+
+    response = requests.get(url, timeout=10)
+
+    if response.status_code != 200:
+        return []
+
+    data = response.json()
+    people = []
+
+    for person in data.get("results", [])[:12]:
+        profile_path = person.get("profile_path")
+
+        people.append(
+            {
+                "person_id": person.get("id"),
+                "name": person.get("name", "Unknown"),
+                "profile_url": (
+                    make_img_url(profile_path)
+                    if profile_path else None
+                ),
+                "department": person.get(
+                    "known_for_department",
+                    "Unknown"
+                ),
+                "popularity": person.get("popularity"),
+            }
+        )
+
+    return people
+
+    #-------------------------------------------------------------------
+
+def tmdb_trending_trailers() -> list[dict]:
+    url = (
+        "https://api.themoviedb.org/3/trending/movie/week"
+        f"?api_key={TMDB_API_KEY}"
+    )
+
+    response = requests.get(url, timeout=10)
+
+    if response.status_code != 200:
+        return []
+
+    data = response.json()
+    trailers = []
+
+    for movie in data.get("results", [])[:4]:
+        movie_id = movie.get("id")
+
+        video_url = (
+            f"https://api.themoviedb.org/3/movie/{movie_id}/videos"
+            f"?api_key={TMDB_API_KEY}"
+        )
+
+        video_response = requests.get(video_url, timeout=10)
+
+        if video_response.status_code != 200:
+            continue
+
+        video_data = video_response.json()
+
+        trailer_key = None
+
+        for video in video_data.get("results", []):
+            if (
+                video.get("site") == "YouTube"
+                and video.get("type") in ["Trailer", "Teaser"]
+            ):
+                trailer_key = video.get("key")
+                break
+
+        if not trailer_key:
+            continue
+
+        trailers.append(
+            {
+                "tmdb_id": movie_id,
+                "title": movie.get("title", "Unknown Movie"),
+                "overview": movie.get("overview"),
+                "backdrop_url": make_img_url(
+                    movie.get("backdrop_path")
+                ),
+                "poster_url": make_img_url(
+                    movie.get("poster_path")
+                ),
+                "trailer_url": (
+                    f"https://www.youtube.com/watch?v={trailer_key}"
+                ),
+                "rating": movie.get("vote_average"),
+            }
+        )
+
+    return trailers
+
+    #-------------------------------------------------------------------
+
+@app.get("/trailers/trending")
+def get_trending_trailers():
+    return tmdb_trending_trailers()
+
+@app.get("/provider/{provider_id}/movies")
+def get_provider_movies(provider_id: int):
+    return tmdb_provider_movies(provider_id)
+
+@app.get("/people/trending")
+def get_trending_people():
+    return tmdb_trending_people()
+
+    
 # ---------- GENRE RECOMMENDATIONS ----------
 @app.get("/recommend/genre", response_model=List[TMDBMovieCard])
 async def recommend_genre(
@@ -468,7 +903,7 @@ async def search_bundle(
 ):
     """
     This endpoint is for when you have a selected movie and want:
-      - movie details
+      - movie details       
       - TF-IDF recommendations (local) + posters
       - Genre recommendations (TMDB) + posters
 
@@ -537,3 +972,4 @@ async def search_bundle(
 # 🎬 Movie Details
 # 🧠 TF-IDF Recommendations
 # 🎭 Genre Recommendations
+

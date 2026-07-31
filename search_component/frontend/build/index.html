@@ -1,0 +1,847 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow: visible;
+}
+
+.wrap {
+    position: relative;
+    width: 100%;
+    padding: 1px 0 14px;
+}
+
+.bar {
+    position: relative;
+    z-index: 200;
+    height: 46px;
+    display: flex;
+    align-items: stretch;
+    border: 2px solid #f5c518;
+    border-radius: 5px;
+    background: #fff;
+    overflow: visible;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, .15);
+}
+
+.scope-wrap {
+    position: relative;
+    z-index: 220;
+    flex: 0 0 92px;
+}
+
+.scope {
+    width: 100%;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border: 0;
+    border-right: 1px solid #d1d5db;
+    border-radius: 3px 0 0 3px;
+    background: #fff;
+    color: #111;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.scope:hover,
+.scope.open {
+    background: #f3f4f6;
+}
+
+.scope-arrow {
+    font-size: 10px;
+    transition: transform .18s ease;
+}
+
+.scope.open .scope-arrow {
+    transform: rotate(180deg);
+}
+
+.scope-menu {
+    position: absolute;
+    top: 46px;
+    left: -2px;
+    z-index: 100;
+    width: 190px;
+    padding: 8px 0;
+    border-radius: 4px;
+    background: #1f1f1f;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, .55);
+    overflow: hidden;
+}
+
+.scope-menu.hidden {
+    display: none;
+}
+
+.scope-option {
+    width: 100%;
+    min-height: 43px;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 9px 14px;
+    border: 0;
+    background: #1f1f1f;
+    color: #fff;
+    text-align: left;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.scope-option:hover,
+.scope-option.selected {
+    background: #303030;
+}
+
+.scope-option-icon {
+    width: 22px;
+    flex: 0 0 22px;
+    text-align: center;
+    color: #f5c518;
+}
+
+.input {
+    flex: 1;
+    min-width: 0;
+    height: 42px;
+    border: 0;
+    outline: 0;
+    padding: 0 14px;
+    color: #111;
+    background: #fff;
+    font-size: 16px;
+}
+
+.search-btn {
+    width: 54px;
+    height: 42px;
+    border: 0;
+    border-radius: 0 3px 3px 0;
+    background: #fff;
+    color: #222;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.search-btn:hover {
+    background: #f3f4f6;
+}
+
+.panel {
+    position: relative;
+    z-index: 20;
+    margin-top: 0;
+    border-radius: 0 0 4px 4px;
+    background: #1f1f1f;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, .48);
+    overflow: hidden;
+    max-height: 330px;
+    overflow-y: auto;
+}
+
+.panel.hidden {
+    display: none;
+}
+
+.heading {
+    padding: 12px 14px 9px;
+    color: #f5c518;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.item {
+    width: 100%;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 14px;
+    border: 0;
+    border-top: 1px solid #484848;
+    background: #1f1f1f;
+    color: #fff;
+    text-align: left;
+    cursor: pointer;
+}
+
+.item:hover,
+.item.active {
+    background: #303030;
+}
+
+.icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    font-size: 11px;
+    flex: 0 0 24px;
+}
+
+.poster {
+    width: 34px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 3px;
+    background: #333;
+    flex: 0 0 34px;
+}
+
+.item-main {
+    min-width: 0;
+}
+
+.title {
+    font-size: 16px;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.meta {
+    margin-top: 3px;
+    color: #aaa;
+    font-size: 12px;
+}
+
+.status {
+    padding: 14px;
+    color: #bbb;
+    border-top: 1px solid #484848;
+    font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+    <div class="bar">
+        <div class="scope-wrap">
+            <button
+                id="scopeButton"
+                class="scope"
+                type="button"
+                aria-haspopup="true"
+                aria-expanded="false"
+            >
+                <span id="scopeLabel">All</span>
+                <span class="scope-arrow">▼</span>
+            </button>
+
+            <div id="scopeMenu" class="scope-menu hidden">
+                <button class="scope-option selected" type="button" data-scope="all">
+                    <span class="scope-option-icon">⌕</span>
+                    <span>All</span>
+                </button>
+
+                <button class="scope-option" type="button" data-scope="movie">
+                    <span class="scope-option-icon">🎬</span>
+                    <span>Movies</span>
+                </button>
+
+                <button class="scope-option" type="button" data-scope="tv">
+                    <span class="scope-option-icon">📺</span>
+                    <span>TV Shows</span>
+                </button>
+
+                <button class="scope-option" type="button" data-scope="person">
+                    <span class="scope-option-icon">👤</span>
+                    <span>People</span>
+                </button>
+            </div>
+        </div>
+
+        <input
+            id="searchInput"
+            class="input"
+            autocomplete="off"
+            spellcheck="false"
+        >
+
+        <button
+            id="searchButton"
+            class="search-btn"
+            type="button"
+            aria-label="Search"
+        >
+            ⌕
+        </button>
+    </div>
+
+    <div id="panel" class="panel hidden"></div>
+</div>
+
+<script>
+let apiBase = "";
+let items = [];
+let activeIndex = -1;
+let timer = null;
+let requestSerial = 0;
+let selectedScope = "all";
+let scopeOpen = false;
+
+const input = document.getElementById("searchInput");
+const panel = document.getElementById("panel");
+const searchButton = document.getElementById("searchButton");
+const scopeButton = document.getElementById("scopeButton");
+const scopeMenu = document.getElementById("scopeMenu");
+const scopeLabel = document.getElementById("scopeLabel");
+const scopeOptions = Array.from(
+    document.querySelectorAll(".scope-option")
+);
+
+const scopeLabels = {
+    all: "All",
+    movie: "Movies",
+    tv: "TV Shows",
+    person: "People"
+};
+
+const popular = [
+    "the odyssey",
+    "furious",
+    "spider man brand new day",
+    "masters of the universe",
+    "children of blood and bone",
+    "obsession",
+    "house of the dragon",
+    "avatar aang the last airbender"
+];
+
+function send(type, data = {}) {
+    window.parent.postMessage(
+        Object.assign(
+            {
+                isStreamlitMessage: true,
+                type: type
+            },
+            data
+        ),
+        "*"
+    );
+}
+
+function ready() {
+    send("streamlit:componentReady", {apiVersion: 1});
+    updateHeight();
+}
+
+function resize(height) {
+    send("streamlit:setFrameHeight", {height: height});
+}
+
+function currentPanelHeight() {
+    if (panel.classList.contains("hidden")) {
+        return 64;
+    }
+
+    return Math.min(
+        390,
+        80 + Math.max(1, items.length) * 58
+    );
+}
+
+function updateHeight() {
+    if (scopeOpen) {
+        resize(Math.max(255, currentPanelHeight()));
+        return;
+    }
+
+    resize(currentPanelHeight());
+}
+
+function setValue(value) {
+    send(
+        "streamlit:setComponentValue",
+        {
+            value: value,
+            dataType: "json"
+        }
+    );
+}
+
+function eventId() {
+    return (
+        Date.now().toString()
+        + "-"
+        + Math.random().toString(16).slice(2)
+    );
+}
+
+function esc(value) {
+    return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
+function normalize(raw) {
+    const list = Array.isArray(raw)
+        ? raw
+        : (
+            raw && Array.isArray(raw.results)
+                ? raw.results
+                : []
+        );
+
+    return list
+        .map(item => ({
+            tmdb_id: Number(
+                item.tmdb_id
+                || item.id
+                || 0
+            ),
+            title: String(
+                item.title
+                || item.name
+                || "Unknown Movie"
+            ),
+            poster_url:
+                item.poster_url
+                || (
+                    item.poster_path
+                        ? "https://image.tmdb.org/t/p/w92"
+                            + item.poster_path
+                        : ""
+                ),
+            release_date: String(
+                item.release_date
+                || item.first_air_date
+                || ""
+            )
+        }))
+        .filter(item => item.tmdb_id && item.title)
+        .slice(0, 8);
+}
+
+function openScopeMenu() {
+    scopeOpen = true;
+
+    // Search results panel को बंद रखो ताकि पहली click पर
+    // category menu साफ और पूरी तरह दिखाई दे।
+    panel.classList.add("hidden");
+    activeIndex = -1;
+
+    scopeMenu.classList.remove("hidden");
+    scopeButton.classList.add("open");
+    scopeButton.setAttribute("aria-expanded", "true");
+
+    // पहले iframe की height बढ़ाओ, फिर menu repaint कराओ।
+    resize(280);
+
+    requestAnimationFrame(() => {
+        scopeMenu.style.display = "block";
+
+        requestAnimationFrame(() => {
+            resize(280);
+        });
+    });
+}
+
+function closeScopeMenu() {
+    scopeOpen = false;
+    scopeMenu.style.display = "";
+    scopeMenu.classList.add("hidden");
+    scopeButton.classList.remove("open");
+    scopeButton.setAttribute("aria-expanded", "false");
+    updateHeight();
+}
+
+function toggleScopeMenu() {
+    if (scopeOpen) {
+        closeScopeMenu();
+    } else {
+        openScopeMenu();
+    }
+}
+
+function selectScope(scope) {
+    selectedScope = scope;
+    scopeLabel.textContent = scopeLabels[scope] || "All";
+
+    scopeOptions.forEach(option => {
+        option.classList.toggle(
+            "selected",
+            option.dataset.scope === scope
+        );
+    });
+
+    closeScopeMenu();
+
+    if (input.value.trim()) {
+        queueSearch();
+    } else {
+        input.focus();
+    }
+}
+
+function openPanel() {
+    panel.classList.remove("hidden");
+    updateHeight();
+}
+
+function closePanel() {
+    panel.classList.add("hidden");
+    activeIndex = -1;
+    updateHeight();
+}
+
+function renderPopular() {
+    items = popular.map((title, index) => ({
+        popular: true,
+        title,
+        tmdb_id: 0,
+        index
+    }));
+
+    panel.innerHTML =
+        '<div class="heading">POPULAR SEARCHES</div>'
+        + items.map((item, index) => `
+            <button
+                class="item ${index === activeIndex ? "active" : ""}"
+                data-index="${index}"
+            >
+                <span class="icon">⌁</span>
+
+                <div class="item-main">
+                    <div class="title">
+                        ${esc(item.title)}
+                    </div>
+                </div>
+            </button>
+        `).join("");
+
+    bindItems();
+    openPanel();
+}
+
+function renderResults() {
+    if (!items.length) {
+        panel.innerHTML =
+            '<div class="status">No results found.</div>';
+
+        openPanel();
+        return;
+    }
+
+    const heading =
+        selectedScope === "movie"
+            ? "MOVIES"
+            : selectedScope === "tv"
+                ? "TV SHOWS"
+                : selectedScope === "person"
+                    ? "PEOPLE"
+                    : "RESULTS";
+
+    panel.innerHTML =
+        `<div class="heading">${heading}</div>`
+        + items.map((item, index) => `
+            <button
+                class="item ${index === activeIndex ? "active" : ""}"
+                data-index="${index}"
+            >
+                ${
+                    item.poster_url
+                        ? `<img
+                            class="poster"
+                            src="${esc(item.poster_url)}"
+                            alt=""
+                        >`
+                        : '<span class="icon">▶</span>'
+                }
+
+                <div class="item-main">
+                    <div class="title">
+                        ${esc(item.title)}
+                    </div>
+
+                    <div class="meta">
+                        ${esc((item.release_date || "").slice(0, 4))}
+                    </div>
+                </div>
+            </button>
+        `).join("");
+
+    bindItems();
+    openPanel();
+}
+
+function bindItems() {
+    panel.querySelectorAll(".item").forEach(button => {
+        button.addEventListener("mousedown", event => {
+            event.preventDefault();
+            choose(Number(button.dataset.index));
+        });
+    });
+}
+
+function choose(index) {
+    const item = items[index];
+
+    if (!item) {
+        return;
+    }
+
+    if (item.popular) {
+        input.value = item.title;
+        performSearch();
+        return;
+    }
+
+    setValue({
+        action: "open",
+        tmdb_id: item.tmdb_id,
+        category: selectedScope,
+        event_id: eventId()
+    });
+
+    closePanel();
+}
+
+async function loadSuggestions(query) {
+    const serial = ++requestSerial;
+
+    panel.innerHTML =
+        '<div class="status">Searching…</div>';
+
+    openPanel();
+
+    try {
+        const url =
+            apiBase
+            + "/tmdb/search?query="
+            + encodeURIComponent(query);
+
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error(
+                "HTTP " + response.status
+            );
+        }
+
+        const data = await response.json();
+
+        if (serial !== requestSerial) {
+            return;
+        }
+
+        items = normalize(data);
+        activeIndex = -1;
+        renderResults();
+    } catch (error) {
+        if (serial !== requestSerial) {
+            return;
+        }
+
+        panel.innerHTML =
+            '<div class="status">'
+            + 'Search unavailable. Check backend/CORS.'
+            + '</div>';
+
+        openPanel();
+    }
+}
+
+function queueSearch() {
+    const query = input.value.trim();
+
+    clearTimeout(timer);
+
+    if (!query) {
+        renderPopular();
+        return;
+    }
+
+    if (query.length < 2) {
+        items = [];
+
+        panel.innerHTML =
+            '<div class="status">'
+            + 'Type at least 2 characters.'
+            + '</div>';
+
+        openPanel();
+        return;
+    }
+
+    timer = setTimeout(
+        () => loadSuggestions(query),
+        280
+    );
+}
+
+function performSearch() {
+    const query = input.value.trim();
+
+    if (!query) {
+        return;
+    }
+
+    if (
+        activeIndex >= 0
+        && items[activeIndex]
+    ) {
+        choose(activeIndex);
+        return;
+    }
+
+    setValue({
+        action: "search",
+        query: query,
+        category: selectedScope,
+        event_id: eventId()
+    });
+
+    closePanel();
+}
+
+scopeButton.addEventListener(
+    "click",
+    event => {
+        event.preventDefault();
+        event.stopPropagation();
+        toggleScopeMenu();
+    }
+);
+
+scopeOptions.forEach(option => {
+    option.addEventListener(
+        "click",
+        event => {
+            event.preventDefault();
+            event.stopPropagation();
+            selectScope(option.dataset.scope);
+        }
+    );
+});
+
+input.addEventListener(
+    "focus",
+    () => {
+        closeScopeMenu();
+
+        if (input.value.trim()) {
+            queueSearch();
+        } else {
+            renderPopular();
+        }
+    }
+);
+
+input.addEventListener(
+    "input",
+    queueSearch
+);
+
+input.addEventListener(
+    "keydown",
+    event => {
+        if (event.key === "ArrowDown") {
+            event.preventDefault();
+
+            activeIndex = Math.min(
+                activeIndex + 1,
+                items.length - 1
+            );
+
+            items[0]?.popular
+                ? renderPopular()
+                : renderResults();
+        } else if (event.key === "ArrowUp") {
+            event.preventDefault();
+
+            activeIndex = Math.max(
+                activeIndex - 1,
+                0
+            );
+
+            items[0]?.popular
+                ? renderPopular()
+                : renderResults();
+        } else if (event.key === "Enter") {
+            event.preventDefault();
+            performSearch();
+        } else if (event.key === "Escape") {
+            closeScopeMenu();
+            closePanel();
+        }
+    }
+);
+
+searchButton.addEventListener(
+    "click",
+    performSearch
+);
+
+document.addEventListener(
+    "mousedown",
+    event => {
+        if (
+            !document
+                .querySelector(".wrap")
+                .contains(event.target)
+        ) {
+            closeScopeMenu();
+            closePanel();
+        }
+    }
+);
+
+window.addEventListener(
+    "message",
+    event => {
+        const data = event.data;
+
+        if (
+            !data
+            || data.type !== "streamlit:render"
+        ) {
+            return;
+        }
+
+        const args = data.args || {};
+
+        apiBase = String(
+            args.api_base || ""
+        ).replace(/\/$/, "");
+
+        input.placeholder = String(
+            args.placeholder || "Search IMDb"
+        );
+
+        updateHeight();
+    }
+);
+
+ready();
+</script>
+</body>
+</html>
