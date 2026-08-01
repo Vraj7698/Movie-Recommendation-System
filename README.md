@@ -1,8 +1,22 @@
 # 🎬 CineVerse - Movie Recommendation System
 
 <p align="center">
+  <img src="./image/logo.png" width="850" alt="CineVerse Logo">
+</p>
 
-<img src="YOUR_LOGO_OR_BANNER_IMAGE_LINK" width="800"/>
+<p align="center">
+
+<img src="https://img.shields.io/badge/Python-3.11-blue?style=for-the-badge&logo=python">
+
+<img src="https://img.shields.io/badge/FastAPI-Backend-009688?style=for-the-badge&logo=fastapi">
+
+<img src="https://img.shields.io/badge/Streamlit-Frontend-FF4B4B?style=for-the-badge&logo=streamlit">
+
+<img src="https://img.shields.io/badge/Machine%20Learning-TF--IDF-orange?style=for-the-badge">
+
+<img src="https://img.shields.io/badge/TMDB-API-01B4E4?style=for-the-badge">
+
+<img src="https://img.shields.io/github/stars/Vraj7698/Movie-Recommendation-System?style=for-the-badge">
 
 </p>
 
@@ -11,42 +25,42 @@ Discover Movies • Watch Trailers • Explore Cast • Get Smart Recommendation
 </h3>
 
 <p align="center">
-
-A Netflix-style movie discovery platform built using Machine Learning, FastAPI, Streamlit, and TMDB API.
-
+A Netflix-style Movie Discovery Platform built using <b>Machine Learning</b>, <b>FastAPI</b>, <b>Streamlit</b>, and the <b>TMDB API</b>.
 </p>
 
 ---
 
 # 🌐 Live Demo
 
-🚀 Website:
-
-https://cineverse-movies.streamlit.app/
+🚀 **Website:**  https://cineverse-movies.streamlit.app/
 
 ---
 
-# 🎥 Project Demo Video
+# 🎥 Project Demo
 
-Add your project demonstration video here:
+▶ **Watch Project Demonstration**
 
-[▶ Watch CineVerse Demo](YOUR_VIDEO_LINK)
+> *(Add your demo video here)*
+
+```
+image/Demo_Video.mp4
+```
 
 ---
 
 # 📌 About The Project
 
-**CineVerse** is a movie recommendation and exploration platform that helps users discover movies, view details, explore cast information, watch trailers, and find similar movies using Machine Learning.
+**CineVerse** is a Movie Recommendation and Exploration platform that helps users discover movies, explore cast details, watch trailers, and receive intelligent movie recommendations using Machine Learning.
 
 The project combines:
 
-* Machine Learning based recommendation system
-* TMDB movie data
-* FastAPI backend services
-* Streamlit interactive frontend
-* User authentication system
+- 🤖 Machine Learning Recommendation System
+- 🎬 TMDB Movie Database API
+- ⚡ FastAPI Backend
+- 🎨 Streamlit Interactive Frontend
+- 👤 User Authentication System
 
-The goal of this project is to create a modern movie platform similar to Netflix/IMDb where users can explore entertainment content easily.
+The goal of this project is to provide a modern movie platform similar to **Netflix** and **IMDb**, allowing users to discover entertainment content effortlessly.
 
 ---
 
@@ -54,59 +68,68 @@ The goal of this project is to create a modern movie platform similar to Netflix
 
 ## 🎬 Movie Discovery
 
-* Trending movies
-* Popular movies
-* Top rated movies
-* Upcoming movies
-* Genre-based exploration
+- Trending Movies
+- Popular Movies
+- Top Rated Movies
+- Upcoming Movies
+- Genre-wise Browsing
+
+---
 
 ## 🤖 Movie Recommendation System
 
-Implemented content-based recommendation using:
+Content-Based Recommendation System using:
 
-* TF-IDF Vectorization
-* Cosine Similarity
-* Movie metadata analysis
+- TF-IDF Vectorization
+- Cosine Similarity
+- Movie Metadata Analysis
 
-Users can get similar movie recommendations based on their selected movie.
+Users receive personalized movie recommendations based on the selected movie.
+
+---
 
 ## 🎭 Movie Details
 
-Users can explore:
+Explore complete movie information:
 
-* Movie posters
-* Ratings
-* Overview
-* Release date
-* Genres
-* Runtime
-* Cast information
-* Actor details
+- Movie Poster
+- Ratings
+- Overview
+- Release Date
+- Genres
+- Runtime
+- Cast Information
+- Actor Details
+
+---
 
 ## 🎞 Trailer Integration
 
-* Watch movie trailers
-* Integrated with movie video data
+Watch official movie trailers directly inside the application using TMDB video data.
 
-## 📺 Streaming Platform Information
+---
 
-Shows available streaming providers:
+## 📺 Streaming Platform Availability
 
-* Netflix
-* Amazon Prime Video
-* JioHotstar
-* SonyLIV
-* ZEE5
-* Apple TV+
+Shows where the movie is available to stream:
+
+- Netflix
+- Amazon Prime Video
+- JioHotstar
+- SonyLIV
+- ZEE5
+- Apple TV+
+
+---
 
 ## 👤 User Authentication
 
-Implemented:
+Features include:
 
-* User registration
-* Login system
-* Profile management
-* Session handling
+- User Registration
+- Secure Login
+- User Profile
+- Session Management
 
 ---
 
@@ -114,91 +137,84 @@ Implemented:
 
 ## 🏠 Home Page
 
-<img src="YOUR_HOME_SCREENSHOT_LINK" width="900">
+<p align="center">
+<img src="./image/Home.png" width="45%">
+<img src="./image/trending.png" width="45%">
+</p>
 
-## 🎬 Movie Details Page
+---
 
-<img src="YOUR_MOVIE_DETAILS_SCREENSHOT_LINK" width="900">
+## 🎬 Movie Details
 
-## 🔎 Recommendation Section
+<p align="center">
+<img src="./image/movie_details.png" width="45%">
+<img src="./image/recommendation.png" width="45%">
+</p>
 
-<img src="YOUR_RECOMMENDATION_SCREENSHOT_LINK" width="900">
+---
+
+## 👤 Authentication
+
+<p align="center">
+<img src="./image/login.png" width="45%">
+<img src="./image/profile.png" width="45%">
+</p>
 
 ---
 
 # 🏗 System Architecture
 
-```
-                 User
-
-                  |
-                  |
-
-          Streamlit Frontend
-
-                  |
-
-                  |
-
-             FastAPI Backend
-
-                  |
-
-        ---------------------
-
-        |                   |
-
-     TMDB API        ML Recommendation
-
-                            |
-
-                     Movie Dataset
-
-                            |
-
-                  Similarity Model
-
-                  (similarity.pkl)
-
-```
+<p align="center">
+<img src="./image/system_architecture.png" width="900">
+</p>
 
 ---
 
 # 🛠 Tech Stack
 
-## Frontend
+## 🎨 Frontend
 
-* Streamlit
-* HTML
-* CSS
-* JavaScript
+- Streamlit
+- HTML
+- CSS
+- JavaScript
 
-## Backend
+---
 
-* FastAPI
-* Python
+## ⚡ Backend
 
-## Machine Learning
+- FastAPI
+- Python
 
-* Scikit-Learn
-* Pandas
-* NumPy
-* TF-IDF Vectorizer
-* Cosine Similarity
+---
 
-## Database
+## 🤖 Machine Learning
 
-* SQL Database
-* User Authentication Storage
+- Scikit-Learn
+- Pandas
+- NumPy
+- TF-IDF Vectorizer
+- Cosine Similarity
 
-## APIs
+---
 
-* TMDB API
+## 🗄 Database
 
-## Deployment
+- SQL Database
+- User Authentication Storage
 
-* Streamlit Cloud
-* GitHub
+---
+
+## 🌐 APIs
+
+- TMDB API
+
+---
+
+## ☁ Deployment
+
+- Streamlit Cloud
+- GitHub
 
 ---
 
@@ -206,7 +222,6 @@ Implemented:
 
 ```
 Movie-Recommendation-System/
-
 │
 ├── app.py
 ├── main.py
@@ -214,52 +229,47 @@ Movie-Recommendation-System/
 ├── README.md
 │
 ├── movie_api/
-│
 │   ├── tmdb.py
-│   ├── routes.py
-│
+│   └── routes.py
 │
 ├── models/
-│
 │   ├── similarity.pkl
 │   └── movies_list.pkl
 │
-│
 ├── assets/
-│
 │   ├── images/
 │   └── videos/
 │
-│
 └── .env
-
 ```
 
 ---
 
 # ⚙️ Installation & Setup
 
-## Clone Repository
+## 1️⃣ Clone Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/Movie-Recommendation-System.git
+git clone https://github.com/Vraj7698/Movie-Recommendation-System.git
 ```
 
-## Go To Project Folder
+---
+
+## 2️⃣ Navigate to Project Folder
 
 ```bash
 cd Movie-Recommendation-System
 ```
 
-## Create Virtual Environment
+---
+
+## 3️⃣ Create Virtual Environment
 
 ```bash
 python -m venv .venv
 ```
 
-Activate environment:
-
-Windows:
+Activate Environment (Windows)
 
 ```bash
 .venv\Scripts\activate
@@ -267,7 +277,7 @@ Windows:
 
 ---
 
-## Install Dependencies
+## 4️⃣ Install Dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -275,26 +285,26 @@ pip install -r requirements.txt
 
 ---
 
-## Add Environment Variables
+## 5️⃣ Create Environment Variables
 
-Create `.env` file:
+Create a `.env` file inside the project root.
 
-```
-TMDB_API_KEY=your_api_key
+```env
+TMDB_API_KEY=your_tmdb_api_key
 DATABASE_URL=your_database_url
 ```
 
 ---
 
-## Run Application
-
-Start Streamlit:
+## 6️⃣ Run Streamlit
 
 ```bash
 streamlit run app.py
 ```
 
-Start FastAPI:
+---
+
+## 7️⃣ Run FastAPI
 
 ```bash
 uvicorn main:app --reload
@@ -304,97 +314,60 @@ uvicorn main:app --reload
 
 # 🔌 API Endpoints
 
-## Movie Details
-
-```
-GET /movie/{movie_id}
-```
-
-## Movie Cast
-
-```
-GET /movie/{movie_id}/cast
-```
-
-## Movie Images
-
-```
-GET /movie/{movie_id}/images
-```
-
-## Watch Providers
-
-```
-GET /movie/{movie_id}/watch-providers
-```
+| Method | Endpoint | Description |
+|----------|-----------------------------|----------------|
+| GET | `/movie/{movie_id}` | Movie Details |
+| GET | `/movie/{movie_id}/cast` | Movie Cast |
+| GET | `/movie/{movie_id}/images` | Movie Images |
+| GET | `/movie/{movie_id}/watch-providers` | Streaming Providers |
 
 ---
 
 # 🧠 Machine Learning Workflow
 
-```
-Movie Dataset
-
-      |
-
-Data Cleaning
-
-      |
-
-Feature Extraction
-
-      |
-
-TF-IDF Vectorization
-
-      |
-
-Cosine Similarity
-
-      |
-
-Movie Recommendation
-
-```
+<p align="center">
+<img src="./image/ml_workflow.png" width="900">
+</p>
 
 ---
 
 # 🚀 Future Improvements
 
-* Next.js frontend migration
-* PostgreSQL database integration
-* JWT authentication
-* Personalized recommendations
-* AI movie assistant chatbot
-* Advanced search system
-* Mobile responsive UI
-* SEO optimization
-* Custom domain integration
+- Next.js Frontend
+- PostgreSQL Integration
+- JWT Authentication
+- Personalized Recommendations
+- AI Movie Assistant Chatbot
+- Advanced Search
+- Mobile Responsive Design
+- SEO Optimization
+- Custom Domain
+- Dark/Light Theme
 
 ---
 
 # 👨‍💻 Developer
 
-**Vraj Patel**
+## Vraj Patel
 
-Computer Engineering Student
+**Computer Engineering Student**
 
-Skills:
+### Skills
 
-* Python
-* Machine Learning
-* FastAPI
-* Streamlit
-* SQL
-* Data Science
+- Python
+- Machine Learning
+- FastAPI
+- Streamlit
+- SQL
+- Data Science
 
 ---
 
-# ⭐ If You Like This Project
+# ⭐ Support
 
-Give this repository a ⭐ on GitHub.
+If you like this project, please consider giving it a **⭐ Star** on GitHub.
 
-Your support motivates further development!
+Your support motivates further development.
 
 ---
 
