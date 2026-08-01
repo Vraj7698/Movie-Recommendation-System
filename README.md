@@ -1,7 +1,7 @@
 # 🎬 CineVerse - Movie Recommendation System
 
 <p align="center">
-  <img src="./image/logo.png" width="850" alt="CineVerse Logo">
+  <img src="/image/logo.png" width="250"/>
 </p>
 
 <p align="center">
@@ -25,42 +25,38 @@ Discover Movies • Watch Trailers • Explore Cast • Get Smart Recommendation
 </h3>
 
 <p align="center">
-A Netflix-style Movie Discovery Platform built using <b>Machine Learning</b>, <b>FastAPI</b>, <b>Streamlit</b>, and the <b>TMDB API</b>.
+A Netflix-style movie discovery platform built using Machine Learning, FastAPI, Streamlit, and TMDB API.
 </p>
 
 ---
 
 # 🌐 Live Demo
 
-🚀 **Website:**  https://cineverse-movies.streamlit.app/
+🚀 Website: https://cineverse-movies.streamlit.app/
 
 ---
 
-# 🎥 Project Demo
+# 🎥 Project Demo Video
 
-▶ **Watch Project Demonstration**
+Add My project demonstration video here:
 
-> *(Add your demo video here)*
-
-```
-image/Demo_Video.mp4
-```
+[▶ Watch CineVerse Demo](/image/Demo_video.mp4)
 
 ---
 
 # 📌 About The Project
 
-**CineVerse** is a Movie Recommendation and Exploration platform that helps users discover movies, explore cast details, watch trailers, and receive intelligent movie recommendations using Machine Learning.
+**CineVerse** is a movie recommendation and exploration platform that helps users discover movies, view details, explore cast information, watch trailers, and find similar movies using Machine Learning.
 
 The project combines:
 
-- 🤖 Machine Learning Recommendation System
-- 🎬 TMDB Movie Database API
-- ⚡ FastAPI Backend
-- 🎨 Streamlit Interactive Frontend
-- 👤 User Authentication System
+- Machine Learning based recommendation system
+- TMDB movie data
+- FastAPI backend services
+- Streamlit interactive frontend
+- User authentication system
 
-The goal of this project is to provide a modern movie platform similar to **Netflix** and **IMDb**, allowing users to discover entertainment content effortlessly.
+The goal of this project is to create a modern movie platform similar to Netflix/IMDb where users can explore entertainment content easily.
 
 ---
 
@@ -68,50 +64,43 @@ The goal of this project is to provide a modern movie platform similar to **Netf
 
 ## 🎬 Movie Discovery
 
-- Trending Movies
-- Popular Movies
-- Top Rated Movies
-- Upcoming Movies
-- Genre-wise Browsing
-
----
+- Trending movies
+- Popular movies
+- Top rated movies
+- Upcoming movies
+- Genre-based exploration
 
 ## 🤖 Movie Recommendation System
 
-Content-Based Recommendation System using:
+Implemented content-based recommendation using:
 
 - TF-IDF Vectorization
 - Cosine Similarity
-- Movie Metadata Analysis
+- Movie metadata analysis
 
-Users receive personalized movie recommendations based on the selected movie.
-
----
+Users can get similar movie recommendations based on their selected movie.
 
 ## 🎭 Movie Details
 
-Explore complete movie information:
+Users can explore:
 
-- Movie Poster
+- Movie posters
 - Ratings
 - Overview
-- Release Date
+- Release date
 - Genres
 - Runtime
-- Cast Information
-- Actor Details
-
----
+- Cast information
+- Actor details
 
 ## 🎞 Trailer Integration
 
-Watch official movie trailers directly inside the application using TMDB video data.
+- Watch movie trailers
+- Integrated with movie video data
 
----
+## 📺 Streaming Platform Information
 
-## 📺 Streaming Platform Availability
-
-Shows where the movie is available to stream:
+Shows available streaming providers:
 
 - Netflix
 - Amazon Prime Video
@@ -120,44 +109,38 @@ Shows where the movie is available to stream:
 - ZEE5
 - Apple TV+
 
----
-
 ## 👤 User Authentication
 
-Features include:
+Implemented:
 
-- User Registration
-- Secure Login
-- User Profile
-- Session Management
+- User registration
+- Login system
+- Profile management
+- Session handling
 
 ---
 
 # 🖼 Screenshots
 
-## 🏠 Home Page
+## 🏠 Home & Movie Discovery
 
 <p align="center">
-<img src="./image/Home.png" width="45%">
-<img src="./image/trending.png" width="45%">
+  <img src="/image/Home.png" width="45%">
+  <img src="/image/trending.png" width="45%">
 </p>
 
----
-
-## 🎬 Movie Details
+## 🎬 Movie Details & Recommendations
 
 <p align="center">
-<img src="./image/movie_details.png" width="45%">
-<img src="./image/recommendation.png" width="45%">
+  <img src="/image/movie_details.png" width="45%">
+  <img src="/image/recommendation.png" width="45%">
 </p>
 
----
-
-## 👤 Authentication
+## 👤 Authentication & Profile
 
 <p align="center">
-<img src="./image/login.png" width="45%">
-<img src="./image/profile.png" width="45%">
+  <img src="/image/login.png" width="45%">
+  <img src="/image/profile.png" width="45%">
 </p>
 
 ---
@@ -165,30 +148,26 @@ Features include:
 # 🏗 System Architecture
 
 <p align="center">
-<img src="./image/system_architecture.png" width="900">
+  <img src="/image/system_architecture.png" width="850">
 </p>
 
 ---
 
 # 🛠 Tech Stack
 
-## 🎨 Frontend
+## Frontend
 
 - Streamlit
 - HTML
 - CSS
 - JavaScript
 
----
-
-## ⚡ Backend
+## Backend
 
 - FastAPI
 - Python
 
----
-
-## 🤖 Machine Learning
+## Machine Learning
 
 - Scikit-Learn
 - Pandas
@@ -196,32 +175,28 @@ Features include:
 - TF-IDF Vectorizer
 - Cosine Similarity
 
----
-
-## 🗄 Database
+## Database
 
 - SQL Database
 - User Authentication Storage
 
----
-
-## 🌐 APIs
+## APIs
 
 - TMDB API
 
----
-
-## ☁ Deployment
+## Deployment
 
 - Streamlit Cloud
+- Render
 - GitHub
 
 ---
 
 # 📂 Project Structure
 
-```
+```text
 Movie-Recommendation-System/
+
 │
 ├── app.py
 ├── main.py
@@ -233,13 +208,22 @@ Movie-Recommendation-System/
 │   └── routes.py
 │
 ├── models/
-│   ├── similarity.pkl
-│   └── movies_list.pkl
+│   ├── df.pkl
+│   ├── indices.pkl
+│   ├── tfidf.pkl
+│   └── tfidf_matrix.pkl
 │
-├── assets/
-│   ├── images/
-│   └── videos/
+├── image/
+│   ├── logo.png
+│   ├── Home.png
+│   ├── movie_details.png
+│   ├── login.png
+│   ├── profile.png
+│   ├── Demo_Video.mp4
+│   └── ml_workflow.png
 │
+├── users.db
+├── .gitignore
 └── .env
 ```
 
@@ -247,23 +231,19 @@ Movie-Recommendation-System/
 
 # ⚙️ Installation & Setup
 
-## 1️⃣ Clone Repository
+## Clone Repository
 
 ```bash
 git clone https://github.com/Vraj7698/Movie-Recommendation-System.git
 ```
 
----
-
-## 2️⃣ Navigate to Project Folder
+## Go To Project Folder
 
 ```bash
 cd Movie-Recommendation-System
 ```
 
----
-
-## 3️⃣ Create Virtual Environment
+## Create Virtual Environment
 
 ```bash
 python -m venv .venv
@@ -277,7 +257,7 @@ Activate Environment (Windows)
 
 ---
 
-## 4️⃣ Install Dependencies
+## Install Dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -285,26 +265,26 @@ pip install -r requirements.txt
 
 ---
 
-## 5️⃣ Create Environment Variables
+## Add Environment Variables
 
-Create a `.env` file inside the project root.
+Create `.env`
 
 ```env
-TMDB_API_KEY=your_tmdb_api_key
+TMDB_API_KEY=your_api_key
 DATABASE_URL=your_database_url
 ```
 
 ---
 
-## 6️⃣ Run Streamlit
+## Run Application
+
+Start Streamlit
 
 ```bash
 streamlit run app.py
 ```
 
----
-
-## 7️⃣ Run FastAPI
+Start FastAPI
 
 ```bash
 uvicorn main:app --reload
@@ -314,43 +294,59 @@ uvicorn main:app --reload
 
 # 🔌 API Endpoints
 
-| Method | Endpoint | Description |
-|----------|-----------------------------|----------------|
-| GET | `/movie/{movie_id}` | Movie Details |
-| GET | `/movie/{movie_id}/cast` | Movie Cast |
-| GET | `/movie/{movie_id}/images` | Movie Images |
-| GET | `/movie/{movie_id}/watch-providers` | Streaming Providers |
+## Movie Details
+
+```
+GET /movie/{movie_id}
+```
+
+## Movie Cast
+
+```
+GET /movie/{movie_id}/cast
+```
+
+## Movie Images
+
+```
+GET /movie/{movie_id}/images
+```
+
+## Watch Providers
+
+```
+GET /movie/{movie_id}/watch-providers
+```
 
 ---
 
 # 🧠 Machine Learning Workflow
 
 <p align="center">
-<img src="./image/ml_workflow.png" width="900">
+  <img src="/image/ml_workflow.png" width="850">
 </p>
 
 ---
 
 # 🚀 Future Improvements
 
-- Next.js Frontend
-- PostgreSQL Integration
-- JWT Authentication
-- Personalized Recommendations
-- AI Movie Assistant Chatbot
-- Advanced Search
-- Mobile Responsive Design
-- SEO Optimization
-- Custom Domain
-- Dark/Light Theme
+- Next.js frontend migration
+- PostgreSQL database integration
+- JWT authentication
+- Personalized recommendations
+- AI movie assistant chatbot
+- Advanced search system
+- Mobile responsive UI
+- SEO optimization
+- Custom domain integration
 
 ---
 
 # 👨‍💻 Developer
 
-## Vraj Patel
+**Vraj Patel**
 
-**Computer Engineering Student**
+Computer Engineering Student
 
 ### Skills
 
@@ -363,11 +359,11 @@ uvicorn main:app --reload
 
 ---
 
-# ⭐ Support
+# ⭐ If You Like This Project
 
-If you like this project, please consider giving it a **⭐ Star** on GitHub.
+Give this repository a ⭐ on GitHub.
 
-Your support motivates further development.
+Your support motivates further development!
 
 ---
 
