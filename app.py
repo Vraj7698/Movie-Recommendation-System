@@ -264,7 +264,7 @@ if not st.session_state.logged_in:
 
 
 # base URL for movie posters
-API_BASE = "https://movie-rec-466x.onrender.com"
+API_BASE = "https://movie-recommender-app-spyz.onrender.com"
 
 # st.set_page_config(page_title="Movie Recommender", page_icon="🎬", layout="wide")
 
