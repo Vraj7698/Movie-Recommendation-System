@@ -41,8 +41,8 @@ A Netflix-style movie discovery platform built using Machine Learning, FastAPI, 
 Add My project demonstration video here:
 
 <p align="center">
-  <a href="https://github.com/Vraj7698/Movie-Recommendation-System/blob/main/image/Demo_Video.mp4">
-    <img src="./image/demo.gif" alt="CineVerse Demo" width="450">
+  <a href="./image/Demo_Video.mp4">
+    <img src="./image/demo.gif" alt="CineVerse Demo" width=400">
   </a>
 </p>
 
