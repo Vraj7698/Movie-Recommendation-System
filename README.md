@@ -40,7 +40,7 @@ A Netflix-style movie discovery platform built using Machine Learning, FastAPI, 
 
 Add My project demonstration video here:
 
-[▶ Watch Demo Video](https://drive.google.com/file/d/1aZbGtPe3ntEh8nHS4Dw6t5EPBG6Tc1hI/view?usp=drive_link)
+https://youtu.be/HdqbBiIkdp8
 
 ---
 
