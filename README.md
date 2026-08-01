@@ -41,7 +41,7 @@ A Netflix-style movie discovery platform built using Machine Learning, FastAPI, 
 Add My project demonstration video here:
 
 <p align="center">
-  <img src="./image/demo.gif" width="400" alt="CineVerse Demo">
+  <img src="./image/Demo_video.mp4" width="400" alt="CineVerse Demo">
 </p>
 
 ---
