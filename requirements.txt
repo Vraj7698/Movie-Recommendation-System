@@ -8,4 +8,5 @@ scipy
 scikit-learn
 joblib==1.4.2
 streamlit
+streamlit-js-eval
 requests
