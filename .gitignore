@@ -13,7 +13,12 @@ venv/
 .streamlit/secrets.toml
 
 # Model files
-*.pkl
+# *.pkl   ← इसे comment या delete कर दो
+
+!models/df.pkl
+!models/indices.pkl
+!models/tfidf.pkl
+!models/tfidf_matrix.pkl
 
 *.db
 users.db
