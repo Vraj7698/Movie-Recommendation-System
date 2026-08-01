@@ -1,7 +1,7 @@
 # 🎬 CineVerse - Movie Recommendation System
 
 <p align="center">
-  <img src="/image/logo.png" width="250"/>
+  <img src="/image/logo.png" width="200"/>
 </p>
 
 <p align="center">
@@ -40,7 +40,11 @@ A Netflix-style movie discovery platform built using Machine Learning, FastAPI, 
 
 Add My project demonstration video here:
 
-[▶ Watch CineVerse Demo](/image/Demo_video.mp4)
+<p align="center">
+  <a href="https://github.com/Vraj7698/Movie-Recommendation-System/blob/main/image/Demo_Video.mp4">
+    <img src="./image/demo.gif" alt="CineVerse Demo" width="450">
+  </a>
+</p>
 
 ---
 
@@ -148,7 +152,7 @@ Implemented:
 # 🏗 System Architecture
 
 <p align="center">
-  <img src="/image/system_architecture.png" width="850">
+  <img src="/image/system_architecture.png" width="550">
 </p>
 
 ---
@@ -323,7 +327,7 @@ GET /movie/{movie_id}/watch-providers
 # 🧠 Machine Learning Workflow
 
 <p align="center">
-  <img src="/image/ml_workflow.png" width="850">
+  <img src="/image/ml_workflow.png" width="550">
 </p>
 
 ---
