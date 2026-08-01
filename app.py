@@ -33,6 +33,7 @@ from streamlit_js_eval import streamlit_js_eval
 
 
 
+
 # st.write("TEST QUERY:", st.query_params)
 
 create_tables()
@@ -254,16 +255,16 @@ if not st.session_state.logged_in:
 
 
     st.stop()
-
+# -----------------------------------------------------------------------------------
 # CONFIG
 # the FastAPI backend endpoint (deployed or local)
 # API_BASE = "https://movie-rec-466x.onrender.com" or "http://127.0.0.1:8000"
 # API_BASE = "http://127.0.0.1:8000"
-API_BASE = "http://127.0.0.1:8001"
+# API_BASE = "http://127.0.0.1:8001"
 
 
 # base URL for movie posters
-TMDB_IMG = "https://image.tmdb.org/t/p/w500"
+API_BASE = "https://movie-rec-466x.onrender.com"
 
 # st.set_page_config(page_title="Movie Recommender", page_icon="🎬", layout="wide")
 
